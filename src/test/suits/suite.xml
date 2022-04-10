@@ -3,6 +3,16 @@
 <suite thread-count="4" verbose="1" name="Saucedemo_Exam_Project"
        annotations="JDK" parallel="tests">
 
+    <test name="SuccessfulLoginTests">
+        <classes>
+            <class name="qa.automation.SuccessfulLoginTests"/>
+        </classes>
+    </test>
+    <test name="UnsuccessfulLoginTests">
+        <classes>
+            <class name="qa.automation.UnsuccessfulLoginTests"/>
+        </classes>
+    </test>
     <test name="SuccessfulAddItemToCart">
         <classes>
             <class name="qa.automation.SuccessfulAddItemToCart"/>
@@ -13,14 +23,9 @@
             <class name="qa.automation.SuccessfulCheckout"/>
         </classes>
     </test>
-    <test name="SuccessfulLoginTests">
+    <test name="ProblemUserProductsFilter">
         <classes>
-            <class name="qa.automation.SuccessfulLoginTests"/>
-        </classes>
-    </test>
-    <test name="UnsuccessfulLoginTests">
-        <classes>
-            <class name="qa.automation.UnsuccessfulLoginTests"/>
+            <class name="qa.automation.ProblemUserProductsFilter"/>
         </classes>
     </test>
 </suite>

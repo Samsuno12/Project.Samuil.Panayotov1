@@ -9,6 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ProductsPage {
 
@@ -21,12 +24,6 @@ public class ProductsPage {
 
     @FindBy (className = "shopping_cart_badge")
     private WebElement shoppingCartCounter;
-
-    public CartPage openCartPage(){
-        shoppingCartLink.click();
-
-        return new CartPage(driver);
-    }
 
     public ProductsPage(WebDriver driver){
         this.driver = driver;
@@ -47,19 +44,64 @@ public class ProductsPage {
         WebElement removeButton = driver.findElement(By.xpath(xpathOfElementToBeRemoved));
         fluentWait.until(ExpectedConditions.elementToBeClickable(removeButton));
 
-        if(removeButton.getText().equals("REMOVE")){
+        if (removeButton.getText().equals("REMOVE")) {
             removeButton.click();
             return true;
-        }else{
-            return false;
         }
+
+        return false;
     }
 
     public int getItemsInTheCart(){
-        if(driver.findElements(By.className("shopping_cart_badge")).isEmpty()){
+        if (driver.findElements(By.className("shopping_cart_badge")).isEmpty()) {
             return 0;
-        }else{
-            return Integer.parseInt(shoppingCartCounter.getText());
         }
+
+        return Integer.parseInt(shoppingCartCounter.getText());
+    }
+
+    public boolean isHamburgerMenuDisplayed() {
+        WebElement userAllPagesButton = driver.findElement(By.id("react-burger-menu-btn"));
+        return userAllPagesButton.isDisplayed();
+    }
+
+    public CartPage openCartPage(){
+        shoppingCartLink.click();
+
+        return new CartPage(driver);
+    }
+
+    public boolean areProductsSortedByPriceAsc() {
+        List<WebElement> priceHolders = driver.findElements(By.className("inventory_item_price"));
+
+        Double price = 0.0;
+        boolean areSorted = true;
+        for (int i = 0; i < priceHolders.size(); i++) {
+            String productPriceStr = priceHolders.get(i).getText().replace("$","");
+
+            // convert into Double
+            double productPrice = Double.parseDouble(productPriceStr);
+
+            if (productPrice < price) {
+                areSorted = false;
+                break;
+            }
+
+            price = productPrice;
+        }
+
+        return areSorted;
+    }
+
+    public void sortByPriceAsc() {
+        FluentWait fluentWait = new FluentWait(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofSeconds(1)) // how often it will be checked for the presence of the element
+                .ignoreAll(Collections.singleton(NoSuchElementException.class));
+
+        WebElement lowToHighPriceOption = driver.findElement(By.cssSelector("[value=lohi]"));
+
+        fluentWait.until(ExpectedConditions.elementToBeClickable(lowToHighPriceOption));
+        lowToHighPriceOption.click();
     }
 }

@@ -2,8 +2,6 @@ package qa.automation;
 
 import base.TestUtil;
 import com.opencsv.exceptions.CsvException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,12 +30,10 @@ public class SuccessfulCheckout extends TestUtil {
 
         CheckoutInfoPage checkoutinfoPage = cartPage.openCheckoutPage();
         checkoutinfoPage.fillInfo(firstName, lastName, postalCode);
-        CheckoutOverviewPage checkoutOverviewPage = checkoutinfoPage.continuePage();
+        CheckoutOverviewPage checkoutOverviewPage = checkoutinfoPage.openCheckoutOverviewPage();
 
-        checkoutOverviewPage.successPage();
-
-        WebElement successMessage = driver.findElement(By.xpath("//*[text()='THANK YOU FOR YOUR ORDER']"));
-        Assert.assertTrue(successMessage.isDisplayed());
+        SuccessPage successPage = checkoutOverviewPage.openSuccessPage();
+        Assert.assertTrue(successPage.isSuccessMessageDisplayed(), "The success message is visible");
     }
 
     @Test(dataProvider = "csvCheckout")
@@ -48,20 +44,17 @@ public class SuccessfulCheckout extends TestUtil {
         productsPage.addItemToTheCart(productOne);
         productsPage.addItemToTheCart(productTwo);
 
-        productsPage.removeItemFromTheCart(productTwo);
-
         CartPage cartPage = productsPage.openCartPage();
+        cartPage.removeItemFromTheCart(productTwo);
 
         Assert.assertEquals(cartPage.getItemsInTheCart(),1, "Because we have removed one item on previous page");
 
         CheckoutInfoPage checkoutinfoPage = cartPage.openCheckoutPage();
         checkoutinfoPage.fillInfo(firstName, lastName, postalCode);
-        CheckoutOverviewPage checkoutOverviewPage = checkoutinfoPage.continuePage();
+        CheckoutOverviewPage checkoutOverviewPage = checkoutinfoPage.openCheckoutOverviewPage();
 
-        checkoutOverviewPage.successPage();
-
-        WebElement successMessage = driver.findElement(By.xpath("//*[text()='THANK YOU FOR YOUR ORDER']"));
-        Assert.assertTrue(successMessage.isDisplayed());
+        SuccessPage successPage = checkoutOverviewPage.openSuccessPage();
+        Assert.assertTrue(successPage.isSuccessMessageDisplayed(), "The success message is visible");
     }
 
 }

@@ -13,7 +13,6 @@ import java.time.Duration;
 public class CartPage {
 
     protected WebDriver driver;
-    private static final String CONTINUE_SHOPPING_LOCATOR = "//*[@id='continue-shopping']";
     private static final String CHECKOUT_LOCATOR = "//*[@id='checkout']";
     private static final String REMOVE_FROM_CART_LOCATOR = "//button[@id='remove-sauce-labs-%s']";
 
@@ -26,11 +25,6 @@ public class CartPage {
     public CartPage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
-    }
-
-    public void continueShoppingPage(){
-        WebElement continueShoppingLink = driver.findElement(By.xpath(CONTINUE_SHOPPING_LOCATOR));
-        continueShoppingLink.click();
     }
 
     public CheckoutInfoPage openCheckoutPage(){
@@ -57,10 +51,10 @@ public class CartPage {
     }
 
     public int getItemsInTheCart(){
-        if(driver.findElements(By.className("shopping_cart_badge")).isEmpty()){
+        if (driver.findElements(By.className("shopping_cart_badge")).isEmpty()) {
             return 0;
-        }else{
-            return Integer.parseInt(shoppingCartCounter.getText());
         }
+
+        return Integer.parseInt(shoppingCartCounter.getText());
     }
 }

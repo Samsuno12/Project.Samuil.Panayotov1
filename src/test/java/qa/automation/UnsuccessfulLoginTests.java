@@ -2,23 +2,20 @@ package qa.automation;
 
 import base.TestUtil;
 import com.opencsv.exceptions.CsvException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import utils.CsvHelper;
-
 import java.io.IOException;
 
 public class UnsuccessfulLoginTests extends TestUtil {
-    @DataProvider(name = "csvWrongCredentials")
+    @DataProvider(name = "unsuccessfulLogins")
     public static Object [][] readUsersFromCsvFile() throws IOException, CsvException {
-        return CsvHelper.readCsvFile("src/test/resources/wrong-credentials.csv");
+        return CsvHelper.readCsvFile("src/test/resources/unsuccessfulLogins.csv");
     }
 
-    @Test (dataProvider = "csvWrongCredentials")
+    @Test (dataProvider = "unsuccessfulLogins")
     public void UnsuccessfulLoginTest(String userName, String password){
         LoginPage loginPage = new LoginPage(driver);
         loginPage.tryToLogin(userName, password);
@@ -30,7 +27,6 @@ public class UnsuccessfulLoginTests extends TestUtil {
             errorMessage = "Password is required";
         }
 
-        WebElement errorLogin = driver.findElement(By.xpath("//*[text()='Epic sadface: "+errorMessage+"']"));
-        Assert.assertTrue(errorLogin.isDisplayed());
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed(errorMessage));
     }
 }

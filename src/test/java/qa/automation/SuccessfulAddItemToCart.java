@@ -12,12 +12,12 @@ import java.io.IOException;
 
 public class SuccessfulAddItemToCart extends TestUtil {
 
-    @DataProvider(name = "csvAddItemToCart")
+    @DataProvider(name = "addItemsToCart")
     public static Object [][] readUsersFromCsvFile() throws IOException, CsvException {
-        return CsvHelper.readCsvFile("src/test/resources/add-item-to-cart.csv");
+        return CsvHelper.readCsvFile("src/test/resources/addItemsToCart.csv");
     }
 
-    @Test (dataProvider = "csvAddItemToCart")
+    @Test (dataProvider = "addItemsToCart")
     public void addItemToTheCart(String userName, String password, String productOne, String productTwo, String productThree, String productFour, String productFive){
         LoginPage loginPage = new LoginPage(driver);
         ProductsPage productsPage = loginPage.login(userName, password);
@@ -59,7 +59,6 @@ public class SuccessfulAddItemToCart extends TestUtil {
             productsPage.removeItemFromTheCart(productFive);
         }
 
-        //Hard Assert
         Assert.assertEquals(productsPage.getItemsInTheCart(),0, "Shopping cart should be empty");
     }
 }

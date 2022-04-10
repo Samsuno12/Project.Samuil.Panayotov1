@@ -22,6 +22,12 @@ public class ProductsPage {
     @FindBy (className = "shopping_cart_badge")
     private WebElement shoppingCartCounter;
 
+    public CartPage openCartPage(){
+        shoppingCartLink.click();
+
+        return new CartPage(driver);
+    }
+
     public ProductsPage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -55,8 +61,5 @@ public class ProductsPage {
         }else{
             return Integer.parseInt(shoppingCartCounter.getText());
         }
-
     }
-
-
 }

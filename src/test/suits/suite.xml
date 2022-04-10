@@ -1,21 +1,26 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite thread-count="4" verbose="1" name="Automation_Framework_Saucedemo"
+<suite thread-count="4" verbose="1" name="Saucedemo_Exam_Project"
        annotations="JDK" parallel="tests">
 
-    <test name="First Test Suite">
+    <test name="SuccessfulAddItemToCart">
         <classes>
-            <class name="qa.automation.MyFirstTest"/>
+            <class name="qa.automation.SuccessfulAddItemToCart"/>
         </classes>
     </test>
-    <test name="JS executor">
+    <test name="SuccessfulCheckout">
         <classes>
-            <class name="qa.automation.JavaScriptExecutorTest"/>
+            <class name="qa.automation.SuccessfulCheckout"/>
         </classes>
     </test>
-    <test name="Wait Test">
+    <test name="SuccessfulLoginTests">
         <classes>
-            <class name="qa.automation.ProductTests"/>
+            <class name="qa.automation.SuccessfulLoginTests"/>
+        </classes>
+    </test>
+    <test name="UnsuccessfulLoginTests">
+        <classes>
+            <class name="qa.automation.UnsuccessfulLoginTests"/>
         </classes>
     </test>
 </suite>
